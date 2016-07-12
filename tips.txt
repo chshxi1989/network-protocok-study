@@ -1,0 +1,106 @@
+HTTP: HyperText Transfer Protocol
+CRLF: Carriage-Return Line-Feed 回车换行就是回车(CR, ASCII 13, \\r) 换行(LF, ASCII 10, \\n)。
+CGI 意思为 Common Gateway Interface,一种基于浏览器的输入、在Web服务器上运行的程序方法。
+    CGI脚本使你的浏览器与用户能交互.这个脚本通常象服务器和系统中其他程序如数据库的桥梁。
+    可以理解为server收到client发过来的请求后，fork进程来处理请求。
+    
+linear white space (LWS)
+LWS = [CRLF] 1*( SP | HT )
+
+HTTP-message = Request | Response ; HTTP/1.1 messages
+generic-message = start-line
+*(message-header CRLF)
+CRLF
+[ message-body ]
+start-line = Request-Line | Status-Line
+
+wireshark capture filter；
+capture ==> Options ==> capture filter
+
+OCTET:
+八位元组(computer memory storage space unit)
+在传统的二进制数字概念中，1 byte（字节）=8 bit（位）。大多数因特网标准使用八位组（octet）这个术语而不是使用字节来表示8位的量。
+该术语起始于TCP/IP发展的早期，当时许多早期的工作是在诸如DEC－10这样的系统上进行的，然而这些系统的结构使用的字节(byte)长度是10位（bit）,
+因此出现了octet的单位，即准确定义 1 octet = 8 bit。
+
+MTU:
+Maximum transmission unit
+
+ubuntu上安装apache httpd
+httpd文档查看http://httpd.apache.org/docs/2.4/
+1 下载source code
+  http://apr.apache.org/download.cgi
+  http://httpd.apache.org/download.cgi
+  apr-1.5.2.tar.gz ==> /usr/local/apr/lib
+  apr-util-1.5.4.tar.gz
+  ==> ./configure
+      make
+      sudo make install
+  httpd-2.4.20.tar.bz2 ==> /usr/local/apache2
+  ==> ./configure
+      make 
+      sudo make install
+      
+2 运行httpd
+   sudo /usr/local/apache2/bin/httpd -k start
+3 流览器里输入http://172.21.29.243/
+  可以看到网页
+  http://172.21.29.243/
+  http://172.21.29.243/test.php
+4 修改/usr/local/apache2/conf/httpd.conf，指定服务器上文件的路径
+   DocumentRoot "/usr/local/apache2/htdocs"
+   ==》 DocumentRoot "/usr/local/apache2/htdocs"
+5 停止httpd
+  sudo /usr/local/apache2/bin/apachectl -k stop
+6 创建链接目录
+  ln -s  /home/selic.cheng/apache2 htdocs
+
+7 安装php：
+   php-7.0.7.tar.gz
+   http://php.net/manual/en/install.unix.apache2.php
+
+ps -aux查看httpd进程信息
+root      4661  0.0  0.0  74932  2160 ?        Ss   14:44   0:00 /usr/local/apache2/bin/httpd -k start
+daemon    4662  0.0  0.0 363896  2212 ?        Sl   14:44   0:00 /usr/local/apache2/bin/httpd -k start
+daemon    4663  0.0  0.0 363896  2212 ?        Sl   14:44   0:00 /usr/local/apache2/bin/httpd -k start
+daemon    4665  0.0  0.0 363896  2208 ?        Sl   14:44   0:00 /usr/local/apache2/bin/httpd -k start
+
+root@mangosteen:/ # cat /proc/2377/status                                      
+Name:   oid.tv.settings
+State:  S (sleeping)
+Tgid:   2377
+Pid:    2377
+PPid:   1697
+TracerPid:      0
+Uid:    1000    1000    1000    1000
+Gid:    1000    1000    1000    1000
+FDSize: 64
+Groups: 1015 1023 3001 3002 3003 9997 41000 
+VmPeak:  2089328 kB
+VmSize:  1824948 kB
+VmLck:         0 kB
+VmPin:         0 kB
+VmHWM:     83268 kB
+VmRSS:     79860 kB
+VmData:   148992 kB
+VmStk:      8196 kB
+VmExe:        16 kB
+VmLib:    104012 kB
+VmPTE:       720 kB
+VmSwap:        0 kB
+Threads:        26
+SigQ:   2/6805
+SigPnd: 0000000000000000
+ShdPnd: 0000000000000000
+SigBlk: 0000000000001204
+SigIgn: 0000000000000000
+SigCgt: 00000002000094f8
+CapInh: 0000000000000000
+CapPrm: 0000000000000000
+CapEff: 0000000000000000
+CapBnd: 0000000000000000
+Seccomp:        0
+Cpus_allowed:   f
+Cpus_allowed_list:      0-3
+voluntary_ctxt_switches:        591
+nonvoluntary_ctxt_switches:     468
